@@ -1,0 +1,17 @@
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background: azure;
+    color: #333;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 10vh;
+}
+
+.footer p, a{
+    justify-content: center;
+    margin: 5px;
+    align-items: center;
+}

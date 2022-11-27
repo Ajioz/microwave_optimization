@@ -21,7 +21,7 @@ def execute_optimiser():
             flag = True
             missed_field.append(field)
          
-        response = {"message": f'Opps! seems you missed {missed_field} field(s)'}
+        response = {"error": f'Opps! seems you missed {missed_field} field(s)'}
         
     if not flag:
         ltx = args['LTX']
@@ -37,18 +37,41 @@ def execute_optimiser():
     return response
   
  
-@app.route('/graph', methods=["GET"])
+@app.route('/graph', methods=["POST"])
 def generate_graph():
-    scatter = scatter_plot()
-    gaussian = guassian_plot()
-    comparison = compare()
     
-    return {"scatter": scatter, "gaussian": gaussian, "comparison": comparison}
+    params = request.get_json()
+    fields = ['distance','margin','FM','Av','FM_con','Av_con']
+    
+    response = {}
+    flag = False
+    missed_field = []
+    
+    for field in fields:
+        if field not in params:
+            flag = True
+            missed_field.append(field)
+        response = {"error": f'Opps! seems you missed {missed_field} field(s)'}
+    
+    if not flag:
+        distance = params['distance']
+        margin   = params['margin']
+        FM       = params['FM']
+        Av       = params['Av']
+        FM_con   = params['FM_con']
+        Av_con   = params['Av_conTX']
+   
+        scatter = scatter_plot(distance, margin, FM, Av)
+        gaussian = guassian_plot(distance)
+        comparison = compare(distance, margin, FM_con, Av_con)
+        response = {"scatter": scatter, "gaussian": gaussian, "comparison": comparison}
+    
+    return response
 
 
 @app.route('/report', methods=['GET'])
 def generate_report():    
-    return True
+    return {"status": True}
 
 
 

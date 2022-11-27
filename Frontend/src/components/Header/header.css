@@ -1,0 +1,21 @@
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 60%;
+    height: 10vh;
+    border-radius: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
+    background: rgb(187, 180, 180);
+    margin: 20px auto;
+    flex-wrap: wrap;
+    color: white;
+    font-size: 3em;
+    font-family: monospace;
+}
+
+.header h3{
+        align-items: center;
+        margin: auto;
+}
