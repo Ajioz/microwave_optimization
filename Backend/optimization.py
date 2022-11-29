@@ -83,7 +83,7 @@ def search(LTX=3.71, LRX=2.86, ptx=16.0, prx=16.0, gtx=40.5, grx=40.5, rsx=-73.5
     return {
         "Z_Inputs": input_set,
         "LoS": my_los,
-        "Vertical Polarization": verticalPol,
+        "Vertical_Polarization": verticalPol,
         "Ki": my_ki,
         "Distance": distance,
         "Margin": margin,

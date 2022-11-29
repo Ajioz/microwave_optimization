@@ -11,13 +11,14 @@ import Output from './components/Output/Output'
 function App() {
 
   const [swapPage, setSwapPage] = useState(false)
+   const [data, setData] = useState([])
 
   return (
     <>
       <Navbar />
       <Header />
       <div className='app'>
-       { swapPage ? <Output /> : <FlipCard setSwapPage= {setSwapPage}/> }
+       { swapPage ? <Output data={data} /> : <FlipCard setData={setData} setSwapPage= {setSwapPage}/> }
       </div>
       <Footer />
     </>

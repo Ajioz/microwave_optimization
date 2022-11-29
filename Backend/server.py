@@ -3,46 +3,45 @@ from flask_cors import CORS
 from optimization import search, scatter_plot, guassian_plot, compare
 
 
-
 app = Flask(__name__)
 CORS(app)
 
 
 @app.route('/execute', methods=['POST'])
 def execute_optimiser():
-
+    data = request.get_json()
     fields = ['LTX', 'LRX', 'PTX', 'PRX', 'GRX', 'GTX', 'RSX', 'Frequency']
-    args = request.get_json()
     response = {}
     flag = False
     my_type = True
     missed_field = []
 
-    #Missing field validation
+    # Missing field validation
     for field in fields:
-        if field not in args:
+        if field not in data:
             flag = True
             missed_field.append(field)
         response = {"error": f'Opps! seems you missed {missed_field} field(s)'}
 
-    #Field data type validation
-    for key, value in args.items():
+    # Field data type validation
+    for key, value in data.items():
         if type(value) != int:
             if type(value) != float:
                 my_type = False
-                response = f'The field {key}, has a value type of String instead of a Number'
-         
+                response = {
+                    "error": f'The field {key}, has a value type of String instead of a Number'}
     if not flag:
         if my_type:
-            ltx = args['LTX']
-            lrx = args['LRX']
-            ptx = args['PTX']
-            prx = args['PRX']
-            grx = args['GRX']
-            gtx = args['GTX']
-            rsx = args['RSX']
-            freq = args['Frequency']
+            ltx = data['LTX']
+            lrx = data['LRX']
+            ptx = data['PTX']
+            prx = data['PRX']
+            grx = data['GRX']
+            gtx = data['GTX']
+            rsx = data['RSX']
+            freq = data['Frequency']
             response = search(ltx, lrx, ptx, prx, grx, gtx, rsx, freq)
+
     return response
 
 
@@ -56,20 +55,21 @@ def generate_graph():
     flag = False
     missed_field = []
 
-    #Missing field validation
+    # Missing field validation
     for field in fields:
         if field not in params:
             flag = True
             missed_field.append(field)
         response = {"error": f'Opps! seems you missed {missed_field} field(s)'}
 
-    #Field data type validation
+    # Field data type validation
     for key, value in params.items():
         if type(value) != int:
             if type(value) != float:
                 my_type = False
-                response = f'The field {key}, has a value type of String instead of a Number'
-                
+                response = {
+                    "error": f'The field {key}, has a value type of String instead of a Number'}
+
     if not flag:
         if my_type:
             distance = params['distance']
@@ -82,13 +82,15 @@ def generate_graph():
             scatter = scatter_plot(distance, margin, FM, Av)
             gaussian = guassian_plot(distance)
             comparison = compare(distance, margin, FM_con, Av_con)
-            response = {"scatter": scatter, "gaussian": gaussian, "comparison": comparison}
+            response = {"scatter": scatter,
+                        "gaussian": gaussian, "comparison": comparison}
 
     return response
 
 
 @app.route('/report', methods=['GET'])
 def generate_report():
+    print(True)
     return {"status": True}
 
 

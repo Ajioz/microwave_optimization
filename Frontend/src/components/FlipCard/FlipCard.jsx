@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion/dist/framer-motion'
 import './flip.css'
 import Form from '../Form/Form'
 
-export default function FlipCard({setSwapPage}) {
+export default function FlipCard({setSwapPage, setData}) {
 
   const [isFlipped, setIsFlipped] = useState(false)
   const [check, setCheck] = useState(false)
@@ -89,7 +89,7 @@ export default function FlipCard({setSwapPage}) {
           <AnimatePresence>
               <div className="back-card">
                 <motion.div  className="form"    >
-                  <Form setSwapPage ={setSwapPage}/>
+                  <Form setData={setData} setSwapPage ={setSwapPage}/>
                 </motion.div>
               </div>
           </AnimatePresence>
