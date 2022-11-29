@@ -1,5 +1,5 @@
 import math
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 class Gaussian():
@@ -57,21 +57,21 @@ class Gaussian():
 
         return x, y
 
-    def normal_dist(self, x, y):
-        plt.plot(x, y)
-        plt.title(
-            'Normal Distribution for \n Sample Mean and Sample Standard Deviation')
-        # x-axis label
-        plt.xlabel('distance')
-        plt.ylabel('Density')
-        plt.show()
+    # def normal_dist(self, x, y):
+    #     plt.plot(x, y)
+    #     plt.title(
+    #         'Normal Distribution for \n Sample Mean and Sample Standard Deviation')
+    #     # x-axis label
+    #     plt.xlabel('distance')
+    #     plt.ylabel('Density')
+    #     plt.show()
 
-    def histogram(self, data):
-        plt.hist(data)
-        plt.title('Histogram of Data')
-        plt.xlabel('data')
-        plt.ylabel('count')
-        plt.show()
+    # def histogram(self, data):
+    #     plt.hist(data)
+    #     plt.title('Histogram of Data')
+    #     plt.xlabel('data')
+    #     plt.ylabel('count')
+    #     plt.show()
 
     def __add__(self, other):
         result = Gaussian()

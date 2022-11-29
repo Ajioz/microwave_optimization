@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import cn from 'classnames'
 import { motion, AnimatePresence } from 'framer-motion/dist/framer-motion'
-// import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion/dist/framer-motion'
 import './flip.css'
 import Form from '../Form/Form'
 
-export default function Home() {
+export default function FlipCard({setSwapPage}) {
 
   const [isFlipped, setIsFlipped] = useState(false)
   const [check, setCheck] = useState(false)
@@ -73,8 +72,7 @@ export default function Home() {
           width: 600,
           height: 600,
         }}
-        onClick={handleFlip}
-      >
+        onClick={handleFlip}>
         <div className="content">
           <div className="front-card">
               <div className="card-img"></div>
@@ -89,26 +87,11 @@ export default function Home() {
               </div>
           </div>
           <AnimatePresence>
-            {isFlipped && (
               <div className="back-card">
-                {check && (
-                  <motion.button
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: [.4, .7, 1.1, 1, 1.1, 1] }}
-                  transition={{ duration: 1, delay: .7 }} 
-                    className="button correct-answer" >
-                    <p>Hello World</p>
-                  </motion.button>
-                )}
                 <motion.div  className="form"    >
-                  <Form />
+                  <Form setSwapPage ={setSwapPage}/>
                 </motion.div>
-              
-                <div className="btn-center">
-                  <button className="btn">execute </button>
-                </div>
               </div>
-            )}
           </AnimatePresence>
         </div>
       </motion.div>
