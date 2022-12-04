@@ -5,6 +5,7 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import './app.css'
 import Output from './components/Output/Output'
+import Graph from './components/Graph/Graph'
 
 
 

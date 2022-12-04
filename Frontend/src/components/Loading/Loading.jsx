@@ -18,7 +18,7 @@ const style = {
   p: 4,
 };
 
-export default function Loading({open, setOpen, setSwapPage, data}) {
+export default function Loading({open, setOpen, setSwapPage}) {
     useEffect(() => {
       setTimeout(()=>{
         if(loaded) {

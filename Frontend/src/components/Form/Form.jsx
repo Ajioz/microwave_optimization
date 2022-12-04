@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Loading from '../Loading/Loading'
@@ -9,7 +9,7 @@ import './form.css'
 export default function Form({setSwapPage, setData}) {
 
       const [isModal, setIsModal] = useState(false)
-   
+      const [error, setError] = useState(false)
       const [values, setValues] = useState({
             LTX: '',
             LRX: '',
@@ -24,20 +24,36 @@ export default function Form({setSwapPage, setData}) {
 
       const handleChange = (prop) => (e) => {
             setValues((values) => {
-            return {...values, [prop] : Number(e.target.value)} 
+            return {...values, [prop] : e.target.value} 
             })
       }
 
       const handleSubmit = (e) => {
             e.preventDefault();
-            APIService.Execute(values)
+            let data = {}
+            for(let key in values){
+                  const value = Number(values[key])
+                  if(isNaN(value)) setError(true)
+                  data[key] =  value;
+            }
+            APIService.Execute(data)
             .then((res) => {
                  if(res.error) {setIsModal(false)}
-                 else {setData(res); setIsModal(true); }
+                 else {setError(false);setData(res);setIsModal(true);}
             })
             .catch((error) => {console.error('Error:', error);});
             setValues({ LTX: '', LRX: '', PTX: '', PRX: '', GRX: '', GTX: '', RSX: '', Frequency: ''})
       }
+
+      useEffect(() => {
+        let timing = setTimeout(()=>{
+            setError(false)
+        }, 5000)
+        return () => {
+          clearTimeout(timing)
+        }
+      }, [error])
+      
 
   return (
     <form className='form' onSubmit={handleSubmit}>
@@ -158,6 +174,7 @@ export default function Form({setSwapPage, setData}) {
                   startAdornment: <InputAdornment position="start" ></InputAdornment>,
             }} />
       </div>
+      { error && <div className="error">Opps! One or two input(s) is invalid, Try again!</div>}
       <div className="btn-center">
             <button className="btn" type='submit'>execute </button>
       </div>

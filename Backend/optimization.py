@@ -83,7 +83,7 @@ def search(LTX=3.71, LRX=2.86, ptx=16.0, prx=16.0, gtx=40.5, grx=40.5, rsx=-73.5
     return {
         "Z_Inputs": input_set,
         "LoS": my_los,
-        "Vertical_Polarization": verticalPol,
+        "Vertical_Pol": verticalPol,
         "Ki": my_ki,
         "Distance": distance,
         "Margin": margin,
@@ -118,10 +118,10 @@ def guassian_plot(distance):
     stdev = OptiGaus.calculate_stdev(data)
     stdev2 = 0.625
     
-    x, y = OptiGaus.stat_pdf(data, mean, stdev)
+    x1, y1 = OptiGaus.stat_pdf(data, mean, stdev)
     x2, y2 = OptiGaus.stat_pdf(distance, mean2, stdev2)
 
-    return {"x_data": x, "y_data": y, "x_data2": x2, "y_data2": y2}
+    return {"x_data": x1, "y_data": y1, "x_data2": x2, "y_data2": y2, "mean": mean, "stdev": stdev}
 
 
 def compare(distance, margin, FM_con, Av_con):

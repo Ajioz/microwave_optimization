@@ -20,6 +20,12 @@
     justify-content: center;
 }
 
+.error{
+    color: red;
+    background: rgb(245, 243, 243);
+    padding: 10px;
+    border-radius: 3px;
+}
 .btn-center {
     margin: 20px auto;
 }

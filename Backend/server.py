@@ -47,50 +47,26 @@ def execute_optimiser():
 
 @app.route('/graph', methods=["POST"])
 def generate_graph():
-
     params = request.get_json()
-    fields = ['distance', 'margin', 'FM', 'Av', 'FM_con', 'Av_con']
     response = {}
-    my_type = True
-    flag = False
-    missed_field = []
+    distance = params['distance']
+    margin = params['margin']
+    FM = params['FM']
+    Av = params['Av']
+    FM_con = params['FM_con']
+    Av_con = params['Av_con']
 
-    # Missing field validation
-    for field in fields:
-        if field not in params:
-            flag = True
-            missed_field.append(field)
-        response = {"error": f'Opps! seems you missed {missed_field} field(s)'}
-
-    # Field data type validation
-    for key, value in params.items():
-        if type(value) != int:
-            if type(value) != float:
-                my_type = False
-                response = {
-                    "error": f'The field {key}, has a value type of String instead of a Number'}
-
-    if not flag:
-        if my_type:
-            distance = params['distance']
-            margin = params['margin']
-            FM = params['FM']
-            Av = params['Av']
-            FM_con = params['FM_con']
-            Av_con = params['Av_conTX']
-
-            scatter = scatter_plot(distance, margin, FM, Av)
-            gaussian = guassian_plot(distance)
-            comparison = compare(distance, margin, FM_con, Av_con)
-            response = {"scatter": scatter,
-                        "gaussian": gaussian, "comparison": comparison}
+    scatter = scatter_plot(distance, margin, FM, Av)
+    gaussian = guassian_plot(distance)
+    comparison = compare(distance, margin, FM_con, Av_con)
+    response = {"scatter": scatter,
+                "gaussian": gaussian, "comparison": comparison}
 
     return response
 
 
 @app.route('/report', methods=['GET'])
 def generate_report():
-    print(True)
     return {"status": True}
 
 
