@@ -41,7 +41,6 @@ def execute_optimiser():
             rsx = data['RSX']
             freq = data['Frequency']
             response = search(ltx, lrx, ptx, prx, grx, gtx, rsx, freq)
-
     return response
 
 
@@ -61,13 +60,13 @@ def generate_graph():
     comparison = compare(distance, margin, FM_con, Av_con)
     response = {"scatter": scatter,
                 "gaussian": gaussian, "comparison": comparison}
-
     return response
 
 
 @app.route('/report', methods=['GET'])
 def generate_report():
     return {"status": True}
+
 
 
 if __name__ == '__main__':

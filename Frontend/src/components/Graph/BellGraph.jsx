@@ -17,18 +17,10 @@ const arrayCreate = (input_1, input_2) => {
 
 const BellGraph = ({bell, my_round}) => {
 
-  let {x_data, y_data, x_data2, y_data2} = bell;
-
+  let {x_data, y_data} = bell;
   let y_value = y_data.map((y) => my_round(y));
   let x_value = x_data.map((x) => my_round(x));
-
-  let y_value2 = y_data2.map((y) => my_round(y));
-  let x_value2 = x_data2.map((x) => my_round(x));
-
   let paired = arrayCreate(x_value, y_value);
-  let paired2 = arrayCreate(x_value2, y_value2);
-
-  console.log(paired);
 
   const config = {
         series: [
@@ -76,8 +68,6 @@ const BellGraph = ({bell, my_round}) => {
             title: {
               text: 'Probability Density'
             },
-            min: 0.08,
-            max: 0.45
           },
         },
   };

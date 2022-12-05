@@ -36,7 +36,6 @@ def search(LTX=3.71, LRX=2.86, ptx=16.0, prx=16.0, gtx=40.5, grx=40.5, rsx=-73.5
     FM_con = []
 
     while True:
-
         input_set = optimization.show_input()
         my_los = optimization.los(35, 40)
 

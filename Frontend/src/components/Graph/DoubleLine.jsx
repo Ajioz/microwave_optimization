@@ -76,7 +76,7 @@ const DoubleLine = ({line, my_round}) => {
                 curve: 'smooth'
               },
               title: {
-                text: 'Distance Vs Margin Vs Rain Attenuation',
+                text: 'Distance Vs Margin Vs Rain Attenuation [ scale: -30 ]',
                 align: 'center'
               },
               grid: {

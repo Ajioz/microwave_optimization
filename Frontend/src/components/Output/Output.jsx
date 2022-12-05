@@ -61,6 +61,7 @@ const graphStyle =  () => ({
     const handleOpenB = () => setOpenB(true);
     const handleOpenC = () => setOpenC(true);
     const handleOpenD = () => setOpenD(true);
+
     const handleClose = () => {
       setOpenA(false)
       setOpenB(false)
@@ -68,7 +69,7 @@ const graphStyle =  () => ({
       setOpenD(false)
     };
 
-    const autoChange = () => {
+    const treeSearch = () => {
         if(sliderState){
             if(search < Distance.length-1){
                 setsearch(search + 1 );
@@ -81,10 +82,10 @@ const graphStyle =  () => ({
     }
 
     useEffect(() => {
-        let sliderForward =  setInterval(() => {
-                autoChange();
-            },100);
-        return() => clearInterval(sliderForward);
+      let sliderForward =  setInterval(() => {
+              treeSearch();
+          },100);
+      return() => clearInterval(sliderForward);
     });
 
   function my_round(number, precision = 100) {
