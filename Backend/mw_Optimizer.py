@@ -70,7 +70,7 @@ class Optimizer():
         self.ki += step
         return self.ki
 
-    def aniebet(self):
+    def aniebiet(self):
         """
             This method calculate the aniebet equation whose output is optimized distance
         """
@@ -81,7 +81,7 @@ class Optimizer():
         """
             This method calculate the free path loss of the pair antenna
         """
-        fls = 32.45 + (20 * math.log10(self.aniebet())) + \
+        fls = 32.45 + (20 * math.log10(self.aniebiet())) + \
             (20 * math.log10(self.freq))
         return fls              # fls == Lpath
 

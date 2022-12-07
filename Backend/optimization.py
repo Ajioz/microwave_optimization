@@ -42,7 +42,7 @@ def search(LTX=3.71, LRX=2.86, ptx=16.0, prx=16.0, gtx=40.5, grx=40.5, rsx=-73.5
         ki = optimization.idim_constant(step)
         my_ki.append(ki)
 
-        optimised_distance = optimization.aniebet()
+        optimised_distance = optimization.aniebiet()
         distance.append(optimised_distance)
 
         FLS = optimization.free_space_loss()
