@@ -116,14 +116,12 @@ import "./output.css";
       setGraph(true);
       setIsLoading(false);
     }
-    // return () => 
   }, [graphs])
   
   useEffect(() => {
     if(report) {
         setIsReporting(false)
     }
-    // return () => 
   }, [report])
   
   function my_round(number, precision = 100) {
