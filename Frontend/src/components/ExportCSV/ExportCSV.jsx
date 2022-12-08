@@ -21,6 +21,7 @@ const realPlotter = (input) => {
               my_obj['Vertical_Pol']= input_data.Vertical_Pol
               obj_list.push(my_obj)
           }
+          return ''
       })
       return obj_list;
 }

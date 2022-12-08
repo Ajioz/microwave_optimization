@@ -6,10 +6,10 @@ import APIService from '../ApiService';
 import './form.css'
 
 
-export default function Form({setSwapPage, setData}) {
-
+export default function Form({setSwapPage, setData, data}) {
       const [isModal, setIsModal] = useState(false)
       const [error, setError] = useState(false)
+      const [network, setNetwork] = useState(false)
       const [values, setValues] = useState({
             LTX: '',
             LRX: '',
@@ -30,6 +30,7 @@ export default function Form({setSwapPage, setData}) {
 
       const handleSubmit = (e) => {
             e.preventDefault();
+            setIsModal(true);
             let data = {}
             for(let key in values){
                   const value = Number(values[key])
@@ -39,7 +40,7 @@ export default function Form({setSwapPage, setData}) {
             APIService.Execute(data)
             .then((res) => {
                  if(res.error) {setIsModal(false)}
-                 else {setError(false);setData(res);setIsModal(true);}
+                 else {setError(false);setData(res);}
             })
             .catch((error) => {console.error('Error:', error);});
             setValues({ LTX: '', LRX: '', PTX: '', PRX: '', GRX: '', GTX: '', RSX: '', Frequency: ''})
@@ -48,11 +49,12 @@ export default function Form({setSwapPage, setData}) {
       useEffect(() => {
         let timing = setTimeout(()=>{
             setError(false)
+            setNetwork(false)
         }, 5000)
         return () => {
           clearTimeout(timing)
         }
-      }, [error])
+      }, [error, network])
       
 
   return (
@@ -175,10 +177,17 @@ export default function Form({setSwapPage, setData}) {
             }} />
       </div>
       { error && <div className="error">Opps! One or two input(s) is invalid, Try again!</div>}
+      { network && <div className="error">Your network is unstable, refresh and try again!</div>}
       <div className="btn-center">
             <button className="btn" type='submit'>execute </button>
       </div>
-      {isModal && <Loading open ={isModal} setOpen={setIsModal} setSwapPage={setSwapPage}/>}
+      {isModal && <Loading 
+            open ={isModal} 
+            data={data} 
+            setOpen={setIsModal} 
+            setSwapPage={setSwapPage}
+            setNetwork={setNetwork}/>
+      }
     </form>
   );
 }

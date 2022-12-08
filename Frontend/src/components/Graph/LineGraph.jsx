@@ -21,8 +21,6 @@ const PairedGraph = ({line, my_round}) => {
   let y_value = y1.map((y) => my_round(y));
   let paired = arrayCreate(x1, y_value);
 
-  console.log(paired);
-
   const config = {
         series: [
             {

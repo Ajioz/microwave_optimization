@@ -4,58 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion/dist/framer-motion'
 import './flip.css'
 import Form from '../Form/Form'
 
-export default function FlipCard({setSwapPage, setData}) {
+export default function FlipCard({setSwapPage, setData, data}) {
 
   const [isFlipped, setIsFlipped] = useState(false)
-  const [check, setCheck] = useState(false)
+
 
   const classes = cn({
     'card': true,
     'flipped': isFlipped,
   
   })
-
-
-  const divVariants = {
-    show: { 
-      transition: {
-        staggerChildren: .4,
-        delayChildren: .8,
-      }
-    },
-    hide: { 
-      transition: {
-        staggerChildren: .1,
-        staggerDirection: -1,
-        delayChildren: .4
-      }
-     },
-     check: { 
-      transition: {
-        staggerChildren: .2,
-        staggerDirection: -1,
-      }
-     }
-  }
-
-  const buttonVariants = {
-    show: { 
-      y: 0, 
-      opacity: 1,
-      height: 'auto'
-    },
-    hide: { 
-      y: -20, 
-      opacity: 0, 
-      height: 0 
-    },
-    check: { 
-      y: 0, 
-      x: -40, 
-      opacity: 0,
-      height: 'auto'
-    }
-  }
 
   const handleFlip = () => {
     setIsFlipped(true)
@@ -89,7 +47,7 @@ export default function FlipCard({setSwapPage, setData}) {
           <AnimatePresence>
               <div className="back-card">
                 <motion.div  className="form"    >
-                  <Form setData={setData} setSwapPage ={setSwapPage}/>
+                  <Form setData={setData} data ={data} setSwapPage ={setSwapPage}/>
                 </motion.div>
               </div>
           </AnimatePresence>

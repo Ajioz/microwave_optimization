@@ -5,7 +5,6 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import './app.css'
 import Output from './components/Output/Output'
-import Graph from './components/Graph/Graph'
 
 
 
@@ -19,7 +18,7 @@ function App() {
       <Navbar />
       <Header />
       <div className='app'>
-       { swapPage ? <Output data={data} /> : <FlipCard setData={setData} setSwapPage= {setSwapPage}/> }
+       { swapPage ? <Output data={data} /> : <FlipCard setData={setData} data ={data} setSwapPage= {setSwapPage}/> }
       </div>
       <Footer />
     </>

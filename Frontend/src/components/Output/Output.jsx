@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ExportCSV from "../ExportCSV/ExportCSV";
 import APIService from '../ApiService';
 import { Assessment } from "@mui/icons-material";
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Graph from '../Graph/Graph'
@@ -10,37 +11,38 @@ import DoubleLine from '../Graph/DoubleLine'
 import LineGraph from '../Graph/LineGraph'
 import "./output.css";
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  maxWidth: '80%',
-  minWidth: '270px',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 3,
-  zIndex: 100,
-  margin: '40px',
-  '@media(max-height: 890px)': {
-        top: '0',
-        transform: 'translate(-50%, 0%)'
-    }
-};
 
-const graphStyle =  () => ({
-    boxSizing: 'border-box', 
-    width: '40px',
-    height: '40px', 
-    bgcolor:'azure',
-    margin: '0 5px',
-    fontSize: '50px',
-    boxShadow:'0 3px 3px rgba(0,0,0,0.3)',
-    transition: '0.5s',
-    '&:hover':{
-        boxShadow: '0 1px 1px rgba(0,0,0,0.3)'
-    }
+  const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      maxWidth: '80%',
+      minWidth: '270px',
+      bgcolor: 'background.paper',
+      boxShadow: 24,
+      p: 4,
+      borderRadius: 3,
+      zIndex: 100,
+      margin: '40px',
+      '@media(max-height: 890px)': {
+            top: '0',
+            transform: 'translate(-50%, 0%)'
+        }
+  };
+
+  const graphStyle =  () => ({
+      boxSizing: 'border-box', 
+      width: '40px',
+      height: '40px', 
+      bgcolor:'azure',
+      margin: '0 5px',
+      fontSize: '50px',
+      boxShadow:'0 3px 3px rgba(0,0,0,0.3)',
+      transition: '0.5s',
+      '&:hover':{
+          boxShadow: '0 1px 1px rgba(0,0,0,0.3)'
+      }
   })
   
   const Output = ({data}) => {
@@ -49,6 +51,8 @@ const graphStyle =  () => ({
     const [sliderState, setSliderState] = useState(true);
     const [report, setReport] = useState(false)
     const [graphs, setGraphs] = useState()
+    const [isLoading, setIsLoading] = useState(false)
+    const [isReporting, setIsReporting] = useState(false)
 
 
     const [graph, setGraph] = useState(false)
@@ -67,55 +71,68 @@ const graphStyle =  () => ({
       setOpenB(false)
       setOpenC(false)
       setOpenD(false)
-    };
+  };
 
-    const treeSearch = () => {
-        if(sliderState){
-            if(search < Distance.length-1){
-                setsearch(search + 1 );
-            }
-            if(search === Distance.length-1){
-                setsearch(Distance.length-1);
-                setSliderState(false);
-            }    
-        }
+  const treeSearch = () => {
+      if(sliderState){
+          if(search < Distance.length-1){
+              setsearch(search + 1 );
+          }
+          if(search === Distance.length-1){
+              setsearch(Distance.length-1);
+              setSliderState(false);
+          }    
+      }
+  }
+
+  useEffect(() => {
+    let sliderForward =  setInterval(() => {
+            treeSearch();
+        },100);
+    return () => clearInterval(sliderForward);
+  });
+
+    
+  const handleReport = (e) =>{
+    setIsReporting(true)
+      e.preventDefault();
+      APIService.Report()
+      .then((res) => {
+        if(res.status) setReport(true) 
+      })
+  }
+
+  const handleGraph = () => {
+    setIsLoading(true);
+    const data = {'distance': Distance, 'margin': Margin, 'FM':FM, 'Av': AVr, 'FM_con': FM_Con, 'Av_con': AVr_Con};
+    APIService.Graph(data)
+    .then((response)=>{
+      setGraphs(response)
+    })
+  }
+  
+  useEffect(() => {
+    if(graphs) {
+      setGraph(true);
+      setIsLoading(false);
     }
-
-    useEffect(() => {
-      let sliderForward =  setInterval(() => {
-              treeSearch();
-          },100);
-      return() => clearInterval(sliderForward);
-    });
-
+    // return () => 
+  }, [graphs])
+  
+  useEffect(() => {
+    if(report) {
+        setIsReporting(false)
+    }
+    // return () => 
+  }, [report])
+  
   function my_round(number, precision = 100) {
       let result = number *  precision;
       return Math.trunc(result) / precision 
   }
 
-  const handleReport = (e) =>{
-    e.preventDefault();
-    APIService.Report()
-    .then((res) => {
-      if(res.status) setReport(true) 
-    })
-
-  }
-
-  const handleGraph = () => {
-    setGraph(true);
-    const data = {'distance': Distance, 'margin': Margin, 'FM':FM, 'Av': AVr, 'FM_con': FM_Con, 'Av_con': AVr_Con};
-    APIService.Graph(data)
-    .then((graphs)=>{
-     setGraphs(graphs)
-     console.log(graphs)
-    })
-  }
-
-
   return (
       <div className="cover">
-
         <div className="abrief">
             <div className = { !sliderState ? "left": "left-static"} ></div>
             <div className="center">
@@ -156,18 +173,18 @@ const graphStyle =  () => ({
 
         <div className="btn-cover">
             <div id="btn-center">
-              <button id="btn" type='submit' 
-                onClick={handleGraph} 
-                disabled={sliderState} >
-                  generate Graphs
-              </button>
-              { graph && 
-              <div className="graphs">
-                <Assessment sx={graphStyle} onClick={handleOpenA}/>    
-                <Assessment sx={graphStyle} onClick={handleOpenB}/>    
-                <Assessment sx={graphStyle} onClick={handleOpenC}/>    
-                <Assessment sx={graphStyle} onClick={handleOpenD}/>    
+              <div className={isLoading || sliderState ? 'bttn disabled' : 'bttn'}
+                  onClick={handleGraph} >
+                  generate Graphs   
+                  <LoadingButton  loading={isLoading}></LoadingButton>
               </div>
+              { graph && 
+                <div className="graphs">
+                        <Assessment sx={graphStyle} onClick={handleOpenA}/>    
+                        <Assessment sx={graphStyle} onClick={handleOpenB}/>    
+                        <Assessment sx={graphStyle} onClick={handleOpenC}/>    
+                        <Assessment sx={graphStyle} onClick={handleOpenD}/>    
+                </div>
               }
                <Modal
                   open={openA}
@@ -215,7 +232,11 @@ const graphStyle =  () => ({
               </Modal>
             </div>
             <div id="btn-center">
-              <button id="btn" type='submit' onClick={handleReport} disabled={sliderState}>generate csv</button>
+              <div className={isReporting || sliderState ? 'bttn disabled' : 'bttn'}
+                onClick={handleReport} >
+                generate csv
+                <LoadingButton  loading={isReporting}></LoadingButton>
+              </div>
               {report && <ExportCSV data={data}/>}
             </div>
         </div>

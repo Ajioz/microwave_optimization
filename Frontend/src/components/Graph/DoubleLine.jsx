@@ -34,8 +34,8 @@ const DoubleLine = ({line, my_round}) => {
   let y2_value = y2.map((y) => my_round(y));
   let y3_value = y3.map((y) => my_round(y));
 
-  let paired = arrayCreate(x1, y_value, y2_value, y3_value);
-  console.log(paired)
+  arrayCreate(x1, y_value, y2_value, y3_value);
+
 
   const config = {
         series: [

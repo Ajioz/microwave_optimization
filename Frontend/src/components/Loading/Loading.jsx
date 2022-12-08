@@ -3,8 +3,6 @@ import Box from '@mui/material/Box';
 import ReactLoading from "react-loading";
 import Modal from '@mui/material/Modal';
 
-let loading = false;
-let loaded = true;
 
 
 const style = {
@@ -18,15 +16,19 @@ const style = {
   p: 4,
 };
 
-export default function Loading({open, setOpen, setSwapPage}) {
+export default function Loading({open, setOpen, data, setSwapPage, setNetwork}) {
     useEffect(() => {
-      setTimeout(()=>{
-        if(loaded) {
+      if(data.AVr) {
+        setSwapPage(open)
+      }
+      let timer = setTimeout(()=>{
           setOpen(!open)
-          setSwapPage(open)
-        }
-      }, 3000)
-    }, [setOpen])
+          setNetwork(true)
+      }, 5000)
+      return () => {
+        clearTimeout(timer)
+      }
+    }, [setOpen, data, setNetwork, open, setSwapPage])
     
 
   return (

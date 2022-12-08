@@ -1,6 +1,6 @@
-const execute = 'http://127.0.0.1:5000/execute'
-const graph = 'http://127.0.0.1:5000/graph'
-const report = 'http://127.0.0.1:5000/report'
+const execute   =  'https://mw-optimizer.onrender.com/execute'
+const graph     =  'https://mw-optimizer.onrender.com/graph'
+const report    =  'https://mw-optimizer.onrender.com/report'
 
 export default class APIService{
    
